@@ -396,7 +396,7 @@ class BasicAuthAdminClient(BasicAuthAdminContract, RestClient):
         if basic_auth_id is not None:
             data['id'] = basic_auth_id
 
-        response = self.session.put(self.get_url('consumers', self.consumer_id, 'basicauth'), data=data,
+        response = self.session.put(self.get_url('consumers', self.consumer_id, 'basic-auth'), data=data,
                                     headers=self.get_headers())
 
         if response.status_code == CONFLICT:
@@ -409,7 +409,7 @@ class BasicAuthAdminClient(BasicAuthAdminContract, RestClient):
         return response.json()
 
     def create(self, username, password):
-        response = self.session.post(self.get_url('consumers', self.consumer_id, 'basicauth'), data={
+        response = self.session.post(self.get_url('consumers', self.consumer_id, 'basic-auth'), data={
             'username': utf8_or_str(username),
             'password': utf8_or_str(password),
         }, headers=self.get_headers())
@@ -433,7 +433,7 @@ class BasicAuthAdminClient(BasicAuthAdminContract, RestClient):
         if offset:
             query_params['offset'] = offset
 
-        url = self.get_url('consumers', self.consumer_id, 'basicauth', **query_params)
+        url = self.get_url('consumers', self.consumer_id, 'basic-auth', **query_params)
         response = self.session.get(url, headers=self.get_headers())
 
         if response.status_code == INTERNAL_SERVER_ERROR:
@@ -445,7 +445,7 @@ class BasicAuthAdminClient(BasicAuthAdminContract, RestClient):
 
     @backoff.on_exception(backoff.expo, ValueError, max_tries=3)
     def delete(self, basic_auth_id):
-        url = self.get_url('consumers', self.consumer_id, 'basicauth', basic_auth_id)
+        url = self.get_url('consumers', self.consumer_id, 'basic-auth', basic_auth_id)
         response = self.session.delete(url, headers=self.get_headers())
 
         if response.status_code not in (NO_CONTENT, NOT_FOUND):
@@ -454,7 +454,7 @@ class BasicAuthAdminClient(BasicAuthAdminContract, RestClient):
 
     @backoff.on_exception(backoff.expo, ServerError, max_tries=3)
     def retrieve(self, basic_auth_id):
-        response = self.session.get(self.get_url('consumers', self.consumer_id, 'basicauth', basic_auth_id),
+        response = self.session.get(self.get_url('consumers', self.consumer_id, 'basic-auth', basic_auth_id),
                                     headers=self.get_headers())
 
         if response.status_code == INTERNAL_SERVER_ERROR:
@@ -466,7 +466,7 @@ class BasicAuthAdminClient(BasicAuthAdminContract, RestClient):
 
     @backoff.on_exception(backoff.expo, ServerError, max_tries=3)
     def count(self):
-        response = self.session.get(self.get_url('consumers', self.consumer_id, 'basicauth'),
+        response = self.session.get(self.get_url('consumers', self.consumer_id, 'basic-auth'),
                                     headers=self.get_headers())
 
         if response.status_code == INTERNAL_SERVER_ERROR:
@@ -481,7 +481,7 @@ class BasicAuthAdminClient(BasicAuthAdminContract, RestClient):
     def update(self, basic_auth_id, **fields):
         assert_dict_keys_in(fields, ['username', 'password'], INVALID_FIELD_ERROR_TEMPLATE)
         response = self.session.patch(
-            self.get_url('consumers', self.consumer_id, 'basicauth', basic_auth_id), data=fields,
+            self.get_url('consumers', self.consumer_id, 'basic-auth', basic_auth_id), data=fields,
             headers=self.get_headers())
 
         if response.status_code == INTERNAL_SERVER_ERROR:
@@ -512,7 +512,7 @@ class KeyAuthAdminClient(KeyAuthAdminContract, RestClient):
         if key_auth_id is not None:
             data['id'] = key_auth_id
 
-        response = self.session.put(self.get_url('consumers', self.consumer_id, 'keyauth'), data=data,
+        response = self.session.put(self.get_url('consumers', self.consumer_id, 'key-auth'), data=data,
                                     headers=self.get_headers())
 
         if response.status_code == CONFLICT:
@@ -525,7 +525,7 @@ class KeyAuthAdminClient(KeyAuthAdminContract, RestClient):
         return response.json()
 
     def create(self, key=None):
-        response = self.session.post(self.get_url('consumers', self.consumer_id, 'keyauth'), data={
+        response = self.session.post(self.get_url('consumers', self.consumer_id, 'key-auth'), data={
             'key': key,
         }, headers=self.get_headers())
 
@@ -548,7 +548,7 @@ class KeyAuthAdminClient(KeyAuthAdminContract, RestClient):
         if offset:
             query_params['offset'] = offset
 
-        url = self.get_url('consumers', self.consumer_id, 'keyauth', **query_params)
+        url = self.get_url('consumers', self.consumer_id, 'key-auth', **query_params)
         response = self.session.get(url, headers=self.get_headers())
 
         if response.status_code == INTERNAL_SERVER_ERROR:
@@ -560,7 +560,7 @@ class KeyAuthAdminClient(KeyAuthAdminContract, RestClient):
 
     @backoff.on_exception(backoff.expo, ValueError, max_tries=3)
     def delete(self, key_auth_id):
-        url = self.get_url('consumers', self.consumer_id, 'keyauth', key_auth_id)
+        url = self.get_url('consumers', self.consumer_id, 'key-auth', key_auth_id)
         response = self.session.delete(url, headers=self.get_headers())
 
         if response.status_code not in (NO_CONTENT, NOT_FOUND):
@@ -569,7 +569,7 @@ class KeyAuthAdminClient(KeyAuthAdminContract, RestClient):
 
     @backoff.on_exception(backoff.expo, ServerError, max_tries=3)
     def retrieve(self, key_auth_id):
-        response = self.session.get(self.get_url('consumers', self.consumer_id, 'keyauth', key_auth_id),
+        response = self.session.get(self.get_url('consumers', self.consumer_id, 'key-auth', key_auth_id),
                                     headers=self.get_headers())
 
         if response.status_code == INTERNAL_SERVER_ERROR:
@@ -581,7 +581,7 @@ class KeyAuthAdminClient(KeyAuthAdminContract, RestClient):
 
     @backoff.on_exception(backoff.expo, ServerError, max_tries=3)
     def count(self):
-        response = self.session.get(self.get_url('consumers', self.consumer_id, 'keyauth'),
+        response = self.session.get(self.get_url('consumers', self.consumer_id, 'key-auth'),
                                     headers=self.get_headers())
 
         if response.status_code == INTERNAL_SERVER_ERROR:
@@ -596,7 +596,7 @@ class KeyAuthAdminClient(KeyAuthAdminContract, RestClient):
     def update(self, key_auth_id, **fields):
         assert_dict_keys_in(fields, ['key'], INVALID_FIELD_ERROR_TEMPLATE)
         response = self.session.patch(
-            self.get_url('consumers', self.consumer_id, 'keyauth', key_auth_id), data=fields,
+            self.get_url('consumers', self.consumer_id, 'key-auth', key_auth_id), data=fields,
             headers=self.get_headers())
 
         if response.status_code == INTERNAL_SERVER_ERROR:
